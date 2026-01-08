@@ -10,7 +10,7 @@ pipeline {
         
         stage('Checkout from SCM') {
             steps {
-                git branch: 'main', credentialsId: 'github', url: 'https://github.com/ekelejames/kubernetes-deployment.git'
+                git branch: 'main', credentialsId: 'github', url: 'https://github.com/godwinekele/kubernetes-deployment.git'
             }
         }
         
@@ -18,11 +18,11 @@ pipeline {
             steps {
                 script {
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                        withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                            sh "git config user.email ekelejames16@gmail.com"
-                            sh "git config user.name ekelejay"
+                        withCredentials([usernamePassword(credentialsId: 'github-cred', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                            sh "git config user.email godwinekele19@gmail.com"
+                            sh "git config user.name godwinekele"
                             sh "cat deployment.yaml"
-                            sh "sed -i 's+ekelejay/devopsclass-app:[^[:space:]]*+ekelejay/devopsclass-app:${DOCKER_TAG}+g' deployment.yaml"
+                            sh "sed -i 's+godwinekele/devopsclass-app:[^[:space:]]*+godwinekele/devopsclass-app:${DOCKER_TAG}+g' deployment.yaml"
                             sh "cat deployment.yaml"
                             sh "git add ."
                             sh "git commit -m 'Done by Jenkins Job changemanifest: ${env.BUILD_NUMBER}'"
